@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+
+<body>
+    <b style="color: blue">123</b>
+    在迭代的同时，我们也可以获取迭代的状态对象：
+
+    <br>```html<br>
+    <tr th:each="user,stat : ${users}">
+        <td th:text="${user.name}">没有数据的默认值</td>
+        <td th:switch="${user.name}">
+            <b th:case="'李小龙'">用户是真功夫</b>
+            <p th:case="'manager'">一旦有一个th:case成立，其它的则不再判断</p>
+            <p th:case="*">其他情况的默认值</p>
+        </td>
+        <td th:utext="|${user.age}<br>|">默认值</td>
+    </tr>
+    ```
+    <h1>
+    stat对象包含以下属性：<br><br>
+
+    - index，从0开始的角标<br>
+    - count，元素的个数，从1开始<br>
+    - size，总元素个数<br>
+    - current，当前遍历到的元素<br>
+    - even/odd，返回是否为奇偶，boolean值<br>
+    - first/last，返回是否为第一或最后，boolean值<br>
+</h1>
+
+</body>
+<script th:inline="javascript">
+    const user = /*[[${users}]]*/ ['默认值1','默认值2','，默认值3'];
+    const age = /*[[${users[0].age}]]*/ 20;
+    console.log(user);
+    for (var i in user) {
+        console.info(user[i])
+    }
+
+    console.log("第一个对象的年龄的值："+age)
+    console.log("使用var出了循环的下标"+i)//var出了循环还有效，推荐let
+/*    let arr = ['a','b','c']
+    for (let i in arr) {
+        console.info(arr[i])
+    }*/
+
+</script>
+
+</html>

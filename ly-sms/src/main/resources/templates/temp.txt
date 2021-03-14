@@ -1,0 +1,4 @@
+<hr>
+您本次操作的验证码是：<b style="color: blue">[(${mail.msg})]</b>，在5分钟内有效
+<hr>
+

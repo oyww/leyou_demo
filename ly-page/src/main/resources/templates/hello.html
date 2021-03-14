@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>hello</title>
+</head>
+<body>
+<h1 th:text="${msg}">大家好</h1>
+<br>
+<h1>
+    欢迎您：<span th:text="${user.name}">请登录</span><br>
+    <span th:text="${user['name']}"></span>的朋友是<span th:text="|=字符串拼接=${user.getFriend().name}|">没有数据</span>
+    <br>直接在标签体书写入文字是默认值，没有数据渲染时就显示
+</h1>
+<hr>
+- 首先在 `h2`上 用 `th:object="${user}"`获取user的值，并且保存
+<br>- 然后，在`h2`内部的任意元素上，可以通过 `*{属性名}`的方式，来获取user中的属性，这样就省去了大量的`user.`前缀了
+<h2 th:object="${user}">
+    <p>Name: <span th:text="*{name}">Jack</span>.</p>
+    <p>Age: <span th:text="*{age}">21</span>.</p>
+    <p>friend: <span th:text="*{friend.name}">Rose</span>.</p>
+</h2>
+<hr>
+## 4.3.方法
+
+> ognl表达式中的方法调用<br>
+
+ognl表达式本身就支持方法调用，例如：<br>
+
+```html<br>
+<h2 th:object="${user}">
+    <p>FirstName: <span th:text="*{name.split(' ')[0]}">Jack</span>.</p>
+    <p>LastName: <span th:text="*{name.split(' ')[1]}">Li</span>.</p>
+</h2>
+```
+- 这里我们调用了name（是一个字符串）的split方法。
+<br>
+字符串字面值需要用`''`，拼接起来非常麻烦，Thymeleaf对此进行了简化，使用一对`|`即可：
+
+```html
+<h1><span th:text="|欢迎您:${user.name}|"></span></h1>
+```
+</body>
+</html>

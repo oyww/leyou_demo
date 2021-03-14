@@ -1,0 +1,44 @@
+server:
+  port: 8081
+spring:
+  mvc:
+   hiddenmethod:
+    filter:
+     enabled: true
+  application:
+    name: item-service
+  datasource:
+    url: jdbc:mysql://localhost:3306/leyou
+    username: root
+    password: 1234
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+  rabbitmq:
+    username: root
+    password: root
+    virtual-host: /leyou
+    host: 192.168.1.10
+    template: #模板，生产者才需要
+          retry: #重试
+            enabled: true #开启重试
+            initial-interval: 10000ms #第一次失败重试等待时间
+            max-interval: 300000ms #最大重试等待时间
+            multiplier: 2 #再次重试的倍数（前次的周期，10,20,40到不了30秒已经限制了，所以最多重试2次）
+          exchange: ly.item.exchange #代码中不声明时的默认交换机名
+    publisher-confirms: true #生产者确认
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
+  instance:
+    lease-renewal-interval-in-seconds: 5 # 每隔5秒发送一次心跳
+    lease-expiration-duration-in-seconds: 10 # 10秒不发送就过期
+    prefer-ip-address: true
+    ip-address: 127.0.0.1
+    instance-id: ${spring.application.name}:${server.port}
+# 打印sql
+mybatis:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: sms-service
+  rabbitmq:
+    host: 192.168.1.10
+    username: root
+    password: root
+    virtual-host: /leyou
+  thymeleaf:
+    suffix: .txt
+  redis:
+      host: 192.168.1.128
+server:
+  port: 8086
+ly:
+  sms:
+    email_user_name: #邮箱
+    email_pass_word: #授权码
+    emailTitleName: 验证码
+    verifyCodeTemplate: temp
+eureka:
+  client:
+    service-url:
+      defaultZone: http://192.168.1.10:10086/eureka
+  instance:
+      prefer-ip-address: true
+      ip-address: 127.0.0.1
+      instance-id: 可以自定义信息：${spring.application.name}:${server.port}
+      lease-renewal-interval-in-seconds: 3
+      lease-expiration-duration-in-seconds: 10
